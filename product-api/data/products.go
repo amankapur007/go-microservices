@@ -1,7 +1,9 @@
 package data
 
 import (
+	"encoding/json"
 	"errors"
+	"io"
 	"time"
 )
 
@@ -17,6 +19,14 @@ type Product struct {
 }
 
 type Products []*Product
+
+func (p *Product) FromJSON(r io.Reader) error {
+	return json.NewDecoder(r).Decode(p)
+}
+
+func (p *Products) ToJSON(w io.Writer) error {
+	return json.NewEncoder(w).Encode(p)
+}
 
 func GetProducts() Products {
 	return productList
