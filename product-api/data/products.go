@@ -13,9 +13,9 @@ type Product struct {
 	Description string  `json:"description"`
 	SKU         string  `json:"sku"`
 	Price       float32 `json:"price"`
-	Created_on  string  `json:"createdOn"`
-	Deleted_on  string  `json:"deletedOn"`
-	Updated_on  string  `json:"updatedOn"`
+	Created_on  string  `json:"-"`
+	Deleted_on  string  `json:"-"`
+	Updated_on  string  `json:"-"`
 }
 
 type Products []*Product
@@ -28,6 +28,9 @@ func (p *Products) ToJSON(w io.Writer) error {
 	return json.NewEncoder(w).Encode(p)
 }
 
+func nextID() int {
+	return productList[len(productList)-1].ID + 1
+}
 func GetProducts() Products {
 	return productList
 }
@@ -42,6 +45,7 @@ func GetProductByID(id int) (*Product, error) {
 }
 
 func AddProduct(p *Product) {
+	p.ID = nextID()
 	productList = append(productList, p)
 }
 

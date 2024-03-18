@@ -1,0 +1,32 @@
+### GET
+GET http://localhost:9090
+
+### POST
+POST http://localhost:9090
+
+{
+    "name": "test",
+    "description": "COffee with milk",
+    "sku": "fdj321",
+    "price": 1.43,
+    "createdOn": "2024-03-18 15:16:57.039868435 +0000 UTC",
+    "deletedOn": "",
+    "updatedOn": ""
+  }
+
+### PUT
+PUT http://localhost:9090/3
+
+{
+    "id": 3,
+    "name": "test 12",
+    "description": "COffee with milk",
+    "sku": "fdj321",
+    "price": 1.43,
+    "createdOn": "2024-03-18 15:16:57.039868435 +0000 UTC",
+    "deletedOn": "",
+    "updatedOn": ""
+  }
+
+### DELETE
+DELETE  http://localhost:9090/3
