@@ -1,10 +1,12 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"net/http"
 	"os"
+	"os/signal"
 	"time"
 
 	"github.com/amankapur007/product-api/handlers"
@@ -26,5 +28,19 @@ func main() {
 		ReadTimeout:  1 * time.Second,
 	}
 	// start the server
-	s.ListenAndServe()
+	go func() {
+		err := s.ListenAndServe()
+		if err != nil {
+			l.Printf("Error starting server: %s\n", err)
+			os.Exit(1)
+		}
+	}()
+	sigChan := make(chan os.Signal)
+	signal.Notify(sigChan, os.Interrupt)
+	signal.Notify(sigChan, os.Kill)
+
+	sig := <-sigChan
+	log.Println("Got the signal", sig)
+	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
+	s.Shutdown(ctx)
 }
